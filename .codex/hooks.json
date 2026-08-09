@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node product-interface-harness/adapters/codex/user-prompt.mjs",
+            "timeout": 30,
+            "statusMessage": "Starting product-interface audit harness"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node product-interface-harness/adapters/codex/stop.mjs",
+            "timeout": 30,
+            "statusMessage": "Validating product-interface audit completeness"
+          }
+        ]
+      }
+    ]
+  }
+}

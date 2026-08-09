@@ -1,0 +1,37 @@
+{
+  "id": "known-unaccounted-lifecycle-exit",
+  "expected": {
+    "valid": false,
+    "issueCodes": ["lifecycle-exit-unaccounted"]
+  },
+  "artifacts": {
+    "discovery": {
+      "stage": "discovery",
+      "evidence": [{ "id": "e1", "label": "observed-as-is", "source": "known-fixture:2", "summary": "Staff can create a managed record." }],
+      "roles": [{ "id": "operator", "name": "Operator" }],
+      "surfaces": [{ "id": "client", "name": "Client" }, { "id": "admin", "name": "Admin" }],
+      "objects": [{
+        "id": "managed-record",
+        "name": "Managed record",
+        "creatable": true,
+        "mutable": true,
+        "accountableRoleId": "operator",
+        "consumerSurfaceIds": ["client"],
+        "managementSurfaceIds": ["admin"],
+        "evidenceIds": ["e1"]
+      }],
+      "commands": [],
+      "findings": []
+    },
+    "contracts": {
+      "stage": "contracts",
+      "coverage": [
+        { "objectId": "managed-record", "surfaceId": "client", "canRead": true, "commandIds": [], "evidenceStatus": "observed" },
+        { "objectId": "managed-record", "surfaceId": "admin", "canRead": true, "commandIds": [], "evidenceStatus": "observed" }
+      ],
+      "findings": []
+    },
+    "design": { "stage": "design", "actionPlacements": [], "findings": [] },
+    "verification": { "stage": "verification", "checks": [{ "id": "v1", "status": "pass", "method": "static-contract", "findingIds": [] }] }
+  }
+}

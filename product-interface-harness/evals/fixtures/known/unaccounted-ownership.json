@@ -1,0 +1,34 @@
+{
+  "id": "known-unaccounted-ownership",
+  "expected": {
+    "valid": false,
+    "issueCodes": ["management-surface-unaccounted", "ownership-unaccounted"]
+  },
+  "artifacts": {
+    "discovery": {
+      "stage": "discovery",
+      "evidence": [{ "id": "e1", "label": "observed-as-is", "source": "known-fixture:1", "summary": "A public client reads mutable information." }],
+      "roles": [],
+      "surfaces": [{ "id": "public-client", "name": "Public client" }],
+      "objects": [{
+        "id": "public-information",
+        "name": "Public information",
+        "creatable": false,
+        "mutable": true,
+        "accountableRoleId": null,
+        "consumerSurfaceIds": ["public-client"],
+        "managementSurfaceIds": [],
+        "evidenceIds": ["e1"]
+      }],
+      "commands": [],
+      "findings": []
+    },
+    "contracts": {
+      "stage": "contracts",
+      "coverage": [{ "objectId": "public-information", "surfaceId": "public-client", "canRead": true, "commandIds": [], "evidenceStatus": "observed" }],
+      "findings": []
+    },
+    "design": { "stage": "design", "actionPlacements": [], "findings": [] },
+    "verification": { "stage": "verification", "checks": [{ "id": "v1", "status": "pass", "method": "static-contract", "findingIds": [] }] }
+  }
+}

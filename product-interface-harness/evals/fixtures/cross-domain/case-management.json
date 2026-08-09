@@ -1,0 +1,46 @@
+{
+  "id": "transfer-case-management",
+  "expected": { "valid": true, "issueCodes": [] },
+  "artifacts": {
+    "discovery": {
+      "stage": "discovery",
+      "evidence": [{ "id": "e1", "label": "confirmed-source", "source": "case-policy:8", "summary": "Caseworkers own cases and close them with a recorded disposition." }],
+      "roles": [{ "id": "caseworker", "name": "Caseworker" }],
+      "surfaces": [{ "id": "citizen-portal", "name": "Citizen portal" }, { "id": "case-console", "name": "Case console" }],
+      "objects": [{
+        "id": "case",
+        "name": "Case",
+        "creatable": true,
+        "mutable": true,
+        "accountableRoleId": "caseworker",
+        "consumerSurfaceIds": ["citizen-portal"],
+        "managementSurfaceIds": ["case-console"],
+        "evidenceIds": ["e1"]
+      }],
+      "commands": [{
+        "id": "close-case",
+        "objectId": "case",
+        "purposes": ["terminate"],
+        "actorRoleIds": ["caseworker"],
+        "fromStates": ["open"],
+        "entryPoints": ["case-console:detail"],
+        "requiresPlacement": true
+      }],
+      "findings": []
+    },
+    "contracts": {
+      "stage": "contracts",
+      "coverage": [
+        { "objectId": "case", "surfaceId": "citizen-portal", "canRead": true, "commandIds": [], "evidenceStatus": "confirmed" },
+        { "objectId": "case", "surfaceId": "case-console", "canRead": true, "commandIds": ["close-case"], "evidenceStatus": "confirmed" }
+      ],
+      "findings": []
+    },
+    "design": {
+      "stage": "design",
+      "actionPlacements": [{ "commandId": "close-case", "surfaceId": "case-console", "location": "detail", "rationale": "Closure requires disposition evidence and history." }],
+      "findings": []
+    },
+    "verification": { "stage": "verification", "checks": [{ "id": "v1", "status": "pass", "method": "journey-test", "findingIds": [] }] }
+  }
+}

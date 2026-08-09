@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify Interface Quality"
+  short_description: "Verify journeys, transitions, resilience, and accessibility"
+  default_prompt: "Use $verify-interface-quality to verify critical journeys, state transitions, responsive behavior, accessibility, and content resilience."

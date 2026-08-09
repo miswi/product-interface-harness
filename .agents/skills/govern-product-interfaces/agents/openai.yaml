@@ -1,0 +1,4 @@
+interface:
+  display_name: "Govern Product Interfaces"
+  short_description: "Route and enforce complete product-interface audits"
+  default_prompt: "Use $govern-product-interfaces to run a complete, evidence-backed product-interface audit with Harness validation."

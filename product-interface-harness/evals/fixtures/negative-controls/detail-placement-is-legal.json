@@ -1,0 +1,46 @@
+{
+  "id": "negative-detail-placement-is-legal",
+  "expected": { "valid": true, "issueCodes": [] },
+  "artifacts": {
+    "discovery": {
+      "stage": "discovery",
+      "evidence": [{ "id": "e1", "label": "confirmed-source", "source": "approval-policy:20", "summary": "Approval requires reviewing the complete evidence packet." }],
+      "roles": [{ "id": "reviewer", "name": "Reviewer" }],
+      "surfaces": [{ "id": "applicant-client", "name": "Applicant client" }, { "id": "review-console", "name": "Review console" }],
+      "objects": [{
+        "id": "application",
+        "name": "Application",
+        "creatable": true,
+        "mutable": true,
+        "accountableRoleId": "reviewer",
+        "consumerSurfaceIds": ["applicant-client"],
+        "managementSurfaceIds": ["review-console"],
+        "evidenceIds": ["e1"]
+      }],
+      "commands": [{
+        "id": "reject-application",
+        "objectId": "application",
+        "purposes": ["terminate"],
+        "actorRoleIds": ["reviewer"],
+        "fromStates": ["under-review"],
+        "entryPoints": ["review-console:detail"],
+        "requiresPlacement": true
+      }],
+      "findings": []
+    },
+    "contracts": {
+      "stage": "contracts",
+      "coverage": [
+        { "objectId": "application", "surfaceId": "applicant-client", "canRead": true, "commandIds": [], "evidenceStatus": "confirmed" },
+        { "objectId": "application", "surfaceId": "review-console", "canRead": true, "commandIds": ["reject-application"], "evidenceStatus": "confirmed" }
+      ],
+      "findings": []
+    },
+    "design": {
+      "stage": "design",
+      "actionPlacements": [{ "commandId": "reject-application", "surfaceId": "review-console", "location": "detail", "rationale": "The decision requires reviewing evidence and recording a reason." }],
+      "findings": []
+    },
+    "verification": { "stage": "verification", "checks": [{ "id": "v1", "status": "pass", "method": "policy-review", "findingIds": [] }] }
+  }
+}

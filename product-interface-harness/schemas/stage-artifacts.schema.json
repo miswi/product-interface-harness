@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/product-interface-harness/stage-artifacts.schema.json",
+  "title": "Product interface harness stage artifacts",
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["id", "label", "source", "summary"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": {
+          "enum": ["confirmed-user", "confirmed-source", "observed-as-is", "inferred", "proposed", "unknown", "conflict"]
+        },
+        "source": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "required": ["id", "type", "severity", "subjectRefs", "evidenceIds", "status"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["critical", "high", "medium", "low"] },
+        "subjectRefs": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "evidenceIds": { "type": "array", "items": { "type": "string" } },
+        "status": { "enum": ["open", "decision-required", "accepted-risk", "resolved"] }
+      }
+    },
+    "discovery": {
+      "type": "object",
+      "required": ["stage", "evidence", "roles", "surfaces", "objects", "commands", "findings"],
+      "properties": {
+        "stage": { "const": "discovery" },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+        "roles": { "type": "array" },
+        "surfaces": { "type": "array" },
+        "objects": { "type": "array" },
+        "commands": { "type": "array" },
+        "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } }
+      }
+    },
+    "contracts": {
+      "type": "object",
+      "required": ["stage", "coverage", "findings"],
+      "properties": {
+        "stage": { "const": "contracts" },
+        "coverage": { "type": "array" },
+        "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } }
+      }
+    },
+    "design": {
+      "type": "object",
+      "required": ["stage", "actionPlacements", "findings"],
+      "properties": {
+        "stage": { "const": "design" },
+        "actionPlacements": { "type": "array" },
+        "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["stage", "checks"],
+      "properties": {
+        "stage": { "const": "verification" },
+        "checks": { "type": "array" }
+      }
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/discovery" },
+    { "$ref": "#/$defs/contracts" },
+    { "$ref": "#/$defs/design" },
+    { "$ref": "#/$defs/verification" }
+  ]
+}

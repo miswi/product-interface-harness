@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/product-interface-harness/run-manifest.schema.json",
+  "title": "Product interface harness run",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "harnessVersion",
+    "runId",
+    "sessionId",
+    "projectRoot",
+    "mode",
+    "status",
+    "requiredStages",
+    "stages",
+    "trace",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "harnessVersion": { "type": "string" },
+    "runId": { "type": "string", "minLength": 1 },
+    "sessionId": { "type": "string", "minLength": 1 },
+    "projectRoot": { "type": "string", "minLength": 1 },
+    "mode": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["active", "needs-attention", "complete", "cancelled"]
+    },
+    "requiredStages": {
+      "type": "array",
+      "items": { "enum": ["discovery", "contracts", "design", "verification"] },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "stages": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status", "artifact"],
+        "properties": {
+          "status": { "enum": ["pending", "complete"] },
+          "artifact": { "type": ["object", "null"] },
+          "updatedAt": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "trace": { "type": "array" },
+    "createdAt": { "type": "string" },
+    "updatedAt": { "type": "string" }
+  },
+  "additionalProperties": true
+}

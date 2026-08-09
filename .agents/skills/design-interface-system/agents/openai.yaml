@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Interface System"
+  short_description: "Design task paths, action placement, components, and visuals"
+  default_prompt: "Use $design-interface-system to design or improve the task flow, action placement, page patterns, components, and visual system."

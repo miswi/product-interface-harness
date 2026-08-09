@@ -1,0 +1,46 @@
+{
+  "id": "transfer-commerce-catalog",
+  "expected": { "valid": true, "issueCodes": [] },
+  "artifacts": {
+    "discovery": {
+      "stage": "discovery",
+      "evidence": [{ "id": "e1", "label": "confirmed-source", "source": "commerce-spec:12", "summary": "Catalog managers own storefront products." }],
+      "roles": [{ "id": "catalog-manager", "name": "Catalog manager" }],
+      "surfaces": [{ "id": "storefront", "name": "Storefront" }, { "id": "catalog-admin", "name": "Catalog admin" }],
+      "objects": [{
+        "id": "product",
+        "name": "Product",
+        "creatable": true,
+        "mutable": true,
+        "accountableRoleId": "catalog-manager",
+        "consumerSurfaceIds": ["storefront"],
+        "managementSurfaceIds": ["catalog-admin"],
+        "evidenceIds": ["e1"]
+      }],
+      "commands": [{
+        "id": "archive-product",
+        "objectId": "product",
+        "purposes": ["terminate"],
+        "actorRoleIds": ["catalog-manager"],
+        "fromStates": ["draft", "published"],
+        "entryPoints": ["catalog-admin:list:overflow"],
+        "requiresPlacement": true
+      }],
+      "findings": []
+    },
+    "contracts": {
+      "stage": "contracts",
+      "coverage": [
+        { "objectId": "product", "surfaceId": "storefront", "canRead": true, "commandIds": [], "evidenceStatus": "confirmed" },
+        { "objectId": "product", "surfaceId": "catalog-admin", "canRead": true, "commandIds": ["archive-product"], "evidenceStatus": "confirmed" }
+      ],
+      "findings": []
+    },
+    "design": {
+      "stage": "design",
+      "actionPlacements": [{ "commandId": "archive-product", "surfaceId": "catalog-admin", "location": "row-overflow", "rationale": "Item-scoped, secondary, and consequential." }],
+      "findings": []
+    },
+    "verification": { "stage": "verification", "checks": [{ "id": "v1", "status": "pass", "method": "contract-test", "findingIds": [] }] }
+  }
+}

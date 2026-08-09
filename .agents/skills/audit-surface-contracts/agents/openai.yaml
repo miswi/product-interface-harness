@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Surface Contracts"
+  short_description: "Audit surface coverage, fields, sources, states, and propagation"
+  default_prompt: "Use $audit-surface-contracts to compare product surfaces, data sources, fields, states, and capability coverage."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Discover Product Model"
+  short_description: "Discover roles, lifecycles, actions, journeys, and gaps"
+  default_prompt: "Use $discover-product-model to reconstruct the product model, task flows, lifecycle, and missing business capabilities."

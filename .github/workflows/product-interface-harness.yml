@@ -1,0 +1,32 @@
+name: Product interface harness
+
+on:
+  push:
+    paths:
+      - ".agents/skills/govern-product-interfaces/**"
+      - ".agents/skills/discover-product-model/**"
+      - ".agents/skills/audit-surface-contracts/**"
+      - ".agents/skills/design-interface-system/**"
+      - ".agents/skills/verify-interface-quality/**"
+      - "product-interface-harness/**"
+      - "package.json"
+  pull_request:
+    paths:
+      - ".agents/skills/govern-product-interfaces/**"
+      - ".agents/skills/discover-product-model/**"
+      - ".agents/skills/audit-surface-contracts/**"
+      - ".agents/skills/design-interface-system/**"
+      - ".agents/skills/verify-interface-quality/**"
+      - "product-interface-harness/**"
+      - "package.json"
+
+jobs:
+  harness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run check:harness

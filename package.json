@@ -1,0 +1,20 @@
+{
+  "name": "product-interface-harness",
+  "version": "0.1.0",
+  "description": "A reusable, cross-domain harness for auditing product-interface completeness, lifecycle coverage, action placement, permissions, and cross-surface consistency.",
+  "private": true,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/miswi/product-interface-harness.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "validate:skills": "node product-interface-harness/runtime/validate-skills.mjs",
+    "test:harness": "node --test product-interface-harness/tests/*.test.mjs",
+    "eval:harness": "node product-interface-harness/evals/run-evals.mjs",
+    "check:harness": "npm run validate:skills && npm run test:harness && npm run eval:harness"
+  }
+}

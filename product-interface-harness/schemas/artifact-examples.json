@@ -1,0 +1,96 @@
+{
+  "discovery": {
+    "stage": "discovery",
+    "evidence": [
+      {
+        "id": "evidence-1",
+        "label": "observed-as-is",
+        "source": "path/to/source:1",
+        "summary": "A consumer surface displays the object."
+      }
+    ],
+    "roles": [
+      {
+        "id": "role-owner",
+        "name": "Responsible operator"
+      }
+    ],
+    "surfaces": [
+      {
+        "id": "consumer",
+        "name": "Consumer client"
+      },
+      {
+        "id": "management",
+        "name": "Management console"
+      }
+    ],
+    "objects": [
+      {
+        "id": "object-1",
+        "name": "Managed object",
+        "creatable": true,
+        "mutable": true,
+        "accountableRoleId": "role-owner",
+        "consumerSurfaceIds": ["consumer"],
+        "managementSurfaceIds": ["management"],
+        "evidenceIds": ["evidence-1"]
+      }
+    ],
+    "commands": [
+      {
+        "id": "archive-object",
+        "objectId": "object-1",
+        "purposes": ["terminate"],
+        "actorRoleIds": ["role-owner"],
+        "fromStates": ["active"],
+        "entryPoints": ["management:list:overflow"],
+        "requiresPlacement": true
+      }
+    ],
+    "findings": []
+  },
+  "contracts": {
+    "stage": "contracts",
+    "coverage": [
+      {
+        "objectId": "object-1",
+        "surfaceId": "consumer",
+        "canRead": true,
+        "commandIds": [],
+        "evidenceStatus": "observed"
+      },
+      {
+        "objectId": "object-1",
+        "surfaceId": "management",
+        "canRead": true,
+        "commandIds": ["archive-object"],
+        "evidenceStatus": "observed"
+      }
+    ],
+    "findings": []
+  },
+  "design": {
+    "stage": "design",
+    "actionPlacements": [
+      {
+        "commandId": "archive-object",
+        "surfaceId": "management",
+        "location": "row-overflow",
+        "rationale": "Item-scoped, infrequent, and consequential."
+      }
+    ],
+    "findings": []
+  },
+  "verification": {
+    "stage": "verification",
+    "checks": [
+      {
+        "id": "check-1",
+        "status": "pass",
+        "method": "static-contract",
+        "findingIds": []
+      }
+    ]
+  }
+}
